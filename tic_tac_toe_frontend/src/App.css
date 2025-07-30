@@ -1,104 +1,199 @@
-/* CSS Variables for Theme Management */
+/* Tic-Tac-Toe Minimal Light Theme with Custom Colors */
+
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+  /* Themed variables */
+  --primary: #1976d2;
+  --secondary: #424242;
+  --accent: #fdd835;
+
+  --bg-main: #f7f9fa;
+  --bg-board: #fff;
+  --text-main: #1a1a1a;
+  --border: #e0e0e0;
+
+  --cell-size: 104px;
+  --cell-size-mobile: 64px;
+  --cell-gap: 16px;
+
+  --transition: 0.23s cubic-bezier(0.4,0,0.2,1);
+
+  --shadow: 0 4px 16px 0 rgba(40,60,110,0.06);
+  --radius: 15px;
 }
 
-[data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
+body {
+  margin: 0;
+  background: var(--bg-main);
+  color: var(--text-main);
 }
 
+/* --- App Root --- */
 .App {
-  text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg-main);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
+/* --- Main Centered Container --- */
+.ttt-main-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
+  flex: 1 1 100%;
+  min-height: 100vh;
+  padding-top: 4vh;
+  padding-bottom: 6vh;
 }
 
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
+/* --- Header, Title --- */
+.ttt-header {
+  margin-bottom: 2.4rem;
 }
 
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
+.ttt-title {
+  font-size: 2.6rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.7rem;
+  line-height: 2.8rem;
+  margin-bottom: 0.5rem;
+}
+.text-accent { color: var(--accent);}
+.text-primary { color: var(--primary);}
+.text-secondary { color: var(--secondary);}
+.mx-1 { margin: 0 0.3em; }
+
+.ttt-info {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.ttt-status {
+  font-size: 1.2em;
+  font-weight: 500;
+  min-height: 2em;
+}
+
+.ttt-status span {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+/* --- Board --- */
+.ttt-board {
+  display: grid;
+  grid-template-columns: repeat(3, var(--cell-size));
+  grid-template-rows: repeat(3, var(--cell-size));
+  gap: var(--cell-gap);
+  background: var(--bg-board);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 2.5rem;
+  margin-top: 1.2rem;
+  border: 1.5px solid var(--border);
+  align-items: center;
+  justify-items: center;
+  padding: 18px;
+  transition: box-shadow var(--transition), border var(--transition);
+}
+
+/* --- Board Cell --- */
+.ttt-cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  background: #f9fafd;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  font-size: 2.85rem;
+  font-weight: 700;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: border var(--transition), box-shadow var(--transition), background var(--transition), color var(--transition), transform 0.15s;
+  box-shadow: 0 1px 4px 0 rgba(33,33,33,0.03);
+  outline: none;
+}
+.ttt-cell:active {
+  transform: scale(0.98);
+}
+.ttt-cell:disabled {
+  cursor: default;
+  background: #ececec;
+  opacity: 0.66;
 }
 
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+.ttt-x {
+  color: var(--primary);
+}
+.ttt-o {
+  color: var(--secondary);
+}
+.ttt-win {
+  background: var(--accent);
+  color: var(--secondary);
+  box-shadow: 0 0 0 2.5px var(--accent);
 }
 
-.theme-toggle:active {
-  transform: translateY(0);
+/* --- Bottom Panel --- */
+.ttt-bottom-panel {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.ttt-reset-btn {
+  padding: 12px 34px;
+  background: var(--primary);
+  border: none;
+  border-radius: 60px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #e0eafc60;
+  margin: 0.7em 0;
+  transition: background var(--transition), color var(--transition), box-shadow var(--transition), opacity 0.2s;
+}
+.ttt-reset-btn:hover, .ttt-reset-btn:active {
+  background: var(--accent);
+  color: var(--secondary);
+  box-shadow: 0 4px 12px #fdd83531;
+}
+
+.ttt-footer {
+  text-align: center;
+  font-size: 0.97em;
+  padding-bottom: 12px;
+  color: var(--secondary);
+  font-weight: 400;
+}
+.footer-note .text-accent { font-weight: 500; }
+@media (max-width: 600px) {
+  .ttt-board {
+    --cell-size: var(--cell-size-mobile);
+    padding: 8px;
+    margin-bottom: 1.2rem;
   }
-  to {
-    transform: rotate(360deg);
+  .ttt-main-container {
+    padding-left: 4vw;
+    padding-right: 4vw;
+    min-height: 94vh;
   }
-}
-
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
+  .ttt-title {
+    font-size: 1.7rem;
+    line-height: 1.6rem;
+    margin-bottom: 0.8rem;
   }
 }
